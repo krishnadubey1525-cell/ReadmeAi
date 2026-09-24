@@ -17,7 +17,7 @@ const PricingCard = () => {
 
   const handlePayment = async()=>{
     try {
-      const res = await fetch("/api/payment/create-order",{method:POST});
+      const res = await fetch("/api/payment/create-order",{method:"POST"});
       const data = await res.json();
 
       if(!res.ok){
@@ -35,12 +35,12 @@ const PricingCard = () => {
     "order_id": data.orderId, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
     "handler":  async function (response){
         const verifyres = await fetch("/api/payment/verify",{
-          method:POST,
+          method:"POST",
           headers:{"Content-Type":"application/json"},
-         body: JSON.stringify({
-         razorpayOrderId:  response.razorpay_payment_id,
-         RazorpayPaymentId:  response.razorpay_order_id,
-         razorpaySignature:  response.razorpay_signature,
+          body: JSON.stringify({
+          RazorpayOrderId: response.razorpay_order_id,
+         RazorpayPaymentId: response.razorpay_payment_id,
+         razorpaySignature: response.razorpay_signature,
 
          })
         })
@@ -84,8 +84,10 @@ const PricingCard = () => {
 
   return (
     <>
-       <Script src="https://checkout.razorpay.com/v1/checkout.js"></Script>
-
+       <Script
+  src="https://checkout.razorpay.com/v1/checkout.js"
+  strategy="afterInteractive"
+/>
 
     <section className="bg-[#111111] py-5 px-6 text-white">
       <div className="max-w-5xl mx-auto text-center">

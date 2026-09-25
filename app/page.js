@@ -3,10 +3,16 @@ import Image from "next/image";
 import Link from "next/link";
 import PricingCard from "@/components/PricingCard";
 import { useSession ,signIn,signOut} from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Home() {
 
   const {data:session} = useSession();
+   const router = useRouter();
+  
+   
+
   return (
     <>
     <nav>
@@ -21,10 +27,20 @@ export default function Home() {
       </Link>
       }
       {session &&
+      <>
+      <div className="flex gap-4">
+
+
+      <button>
+        <h1  className="px-10 text-xl bg-blue-600 border-2 border-gray-800 rounded-full p-2"onClick={()=>router.push("/dashboard")} >Dashboard</h1>
+      </button>
+      
       <button>
       <h1 className="px-10 text-xl bg-blue-600 border-2 border-gray-800 rounded-full p-2" onClick={()=>signOut()}>Logout </h1>
         </button>
-      
+        
+       </div>
+      </>
       }
       </div>
     </nav>

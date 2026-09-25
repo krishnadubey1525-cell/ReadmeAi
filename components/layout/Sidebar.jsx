@@ -1,5 +1,8 @@
+"use client"
 import React from 'react'
+
 import Link from 'next/link'
+import { useSession ,signIn,signOut} from "next-auth/react";
 
 const Sidebar = () => {
 
@@ -29,7 +32,7 @@ const Sidebar = () => {
       <hr className='border-2 border-white'/>
       <div className='text-white pl-3 pt-10'>
         <button>
-             <h1 className="px-10 text-xl bg-blue-600 border-2 border-gray-800 rounded-full p-2" >Logout </h1>
+             <h1 className="px-10 text-xl bg-blue-600 border-2 border-gray-800 rounded-full p-2" onClick={()=>signOut()} >Logout </h1>
         </button>
       </div>
     </div>

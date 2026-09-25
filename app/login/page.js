@@ -1,9 +1,22 @@
 "use client";
 import { signIn } from 'next-auth/react'
 import React from 'react'
-
+import { useEffect } from 'react';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 const Login = () => {
+  const{data: session} = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if(session){
+
+      router.push("/dashboard");
+    }
+  }, [session,router])
+  
+    
   return (
     <div className='min-h-screen bg-black'>
     <div className=' container text-white text-center  mx-auto 

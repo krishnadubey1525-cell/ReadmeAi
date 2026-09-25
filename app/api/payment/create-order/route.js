@@ -39,7 +39,7 @@ export async function POST(){
 
         await Payment.create({
             userId:user._id,
-            RazorpayOrderId:Order._id,
+            RazorpayOrderId:Order.id,
             amount:29900,
             status:"created"
         })

@@ -16,7 +16,7 @@ export async function POST(req){
             return NextResponse.json({success:false, message:"user not found"});
 
         }
-        const {RazorpayOrderId,RazorpayPaymentId,razorpaySignature} = await req.json();
+        const {razorpay_order_id,razorpay_payment_id,razorpay_signature} = await req.json();
 
         const secret = process.env.RAZORPAY_KEY_SECRET ;
 
@@ -24,24 +24,31 @@ export async function POST(req){
 
          const generated_signature = crypto
       .createHmac("sha256", secret)
-      .update(`${RazorpayOrderId}|${RazorpayPaymentId}`)
+      .update(`${razorpay_order_id}|${razorpay_payment_id}`)
       .digest("hex");
 
-         if (generated_signature !== razorpaySignature) {
+//     console.log("Order ID:", razorpay_order_id);
+// console.log("Payment ID:", razorpay_payment_id);
+// console.log("Received Signature:", razorpay_signature);
+// console.log("Generated Signature:", generated_signature);
+
+
+         if (generated_signature !== razorpay_signature) {
          return NextResponse.json({success:false,message:"wrong Signature"})
  
         }
 
+
         await connectDB();
 
-        await Payment.findOneAndUpdate({RazorpayOrderId},{
-            RazorpayPaymentId, status:"paid"
+        await Payment.findOneAndUpdate({razorpay_order_id},{
+            razorpay_payment_id, status:"paid"
         })
 
         await User.findOneAndUpdate({email:session.user.email},{
             plan:"pro",
-            RazorpayOrderId,
-            RazorpayPaymentId,
+            razorpay_order_id,
+            razorpay_payment_id,
 
         })
 
